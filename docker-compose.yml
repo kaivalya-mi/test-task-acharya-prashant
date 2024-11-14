@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: go-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pgsql_service
+      - redis
+    networks:
+      - app-network
+    volumes:
+      - ./config.toml:/app/config.toml  # Mount the config.toml file
+    restart: always
+
+  pgsql_service:
+    image: postgres:16
+    container_name: pgsql
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: Mind1234
+      POSTGRES_DB: test-task
+      
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=Mind@1234
+      - REDIS_PORT=6379
+    volumes:
+      - cache:/data
+    command: redis-server --requirepass Mind@1234
+    networks:
+      - app-network
+ 
+volumes:
+  cache: {}
+  postgres: {}
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,24 @@
+[server]
+ENV = "dev"
+LogFile = "/"
+LogRotate = 14
+
+
+[App]
+Port = 8080
+AccessTokenKey = "$(*%S$FDd!3)96|12AP&LR"
+RefreshTokenKey = "$(*$S$FDd!3)96|62AP&BR"
+
+[Log]
+Path = "logs/"
+MaxAge = 7
+Level = "debug"
+
+[database]
+Dialect = "postgres"
+ConnectionString = "postgres://root:Mind1234@pgsql_service/test-task?sslmode=disable"
+LogMode = true
+
+[Redis]
+Host = "redis:6379"
+Password = "Mind@1234"
